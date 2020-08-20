@@ -1,23 +1,23 @@
 // const { $CombinedState } = require("redux")
 
-export const signUp = (userArg) => {
+export const signup = (user) => {
     return $.ajax({
         method: 'POST',
         url: 'api/users',
-        data: {user: userArg}
+        data: {user}
     })
 }
 
 
-export const logIn = (userArg) => {
+export const login = (user) => {
     return $.ajax({
         method: 'POST',
         url: 'api/session',
-        data: {user: userArg}
+        data: {user}
     })
 }
 
-export const logOut = () => {
+export const logout = () => {
     return $.ajax({
         method: 'DELETE',
         url: 'api/session'
