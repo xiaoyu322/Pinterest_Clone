@@ -20,7 +20,7 @@
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
 
-  .login-form-main {
+.login-form-main {
     border: 1px hidden solid;
     border-radius: 8px;
     background: rgb(255, 255, 255);
@@ -55,3 +55,32 @@
 .login-form button:hover {
     background: rgb(187, 0, 29)
 }
+
+.logout-link {
+    border: none;
+    height: 40px;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 18px;
+    background-color: white;
+}
+/* .logout-link:hover {
+  background-color: rgb(235, 234, 234);
+} */
+.logout-btn:hover {
+  background-color: rgb(221, 218, 218);
+}
+.logout-btn {
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    text-decoration: none;
+    height: 40px;
+    min-width: 70.25px;
+    margin: 8px;
+    color: white;
+    background-color: rgb(230, 0, 35);
+    font-size: 16px;
+    font-weight: 450;
+    border-radius: 30px;
+    padding-right: 12px;
+}
+
