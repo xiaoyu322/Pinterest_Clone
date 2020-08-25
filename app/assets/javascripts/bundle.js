@@ -189,10 +189,10 @@ var LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 var RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 var RESET_SESSION_ERRORS = 'RESET_SESSION_ERRORS';
 var NEW_USER = "NEW_USER";
-var receiveCurrentUser = function receiveCurrentUser(user) {
+var receiveCurrentUser = function receiveCurrentUser(currentUser) {
   return {
     type: RECEIVE_CURRENT_USER,
-    user: user
+    currentUser: currentUser
   };
 };
 var logoutCurrentUser = function logoutCurrentUser() {
@@ -211,15 +211,15 @@ var resetErrors = function resetErrors() {
     type: RESET_SESSION_ERRORS
   };
 };
-var newUserDetails = function newUserDetails(user) {
+var newUserDetails = function newUserDetails(currentUser) {
   return {
     type: NEW_USER,
-    user: user
+    currentUser: currentUser
   };
 };
-var login = function login(formUser) {
+var login = function login(user) {
   return function (dispatch) {
-    return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["login"](formUser).then(function (user) {
+    return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["login"](user).then(function (user) {
       return dispatch(receiveCurrentUser(user));
     }).fail(function (errors) {
       return dispatch(receiveErrors(errors.responseJSON));
@@ -244,7 +244,7 @@ var signup = function signup(user) {
 };
 var createNewUser = function createNewUser(user) {
   return function (dispatch) {
-    return APIUtil.signup(user).then(function (user) {
+    return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["signup"](user).then(function (user) {
       return dispatch(newUserDetails(user));
     }, function (error) {
       return dispatch(receiveSessionErrors(error.responseJSON));
@@ -294,9 +294,9 @@ var receiveUserErrors = function receiveUserErrors(errors) {
     errors: errors
   };
 };
-var fetchUser = function fetchUser(id) {
+var fetchUser = function fetchUser(userId) {
   return function (dispatch) {
-    return _util_users_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUser"](id).then(function (user) {
+    return _util_users_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUser"](userId).then(function (user) {
       return dispatch(receiveUser(user));
     });
   };
@@ -1166,12 +1166,10 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return Object.assign({}, oldState, {
-        user: action.user
-      });
+      return Object.assign({}, oldState, _defineProperty({}, action.currentUser.id, action.currentUser));
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
-      return Object.assign({}, oldState, _defineProperty({}, action.user.id, action.user));
+      return Object.assign({}, oldState, action.user);
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALL_USERS"]:
       return Object.assign({}, oldState, action.users);
@@ -1387,13 +1385,10 @@ var fetchUser = function fetchUser(user) {
     }
   });
 };
-var fetchAllUsers = function fetchAllUsers(users) {
+var fetchAllUsers = function fetchAllUsers() {
   return $.ajax({
     url: "/api/users",
-    method: "GET",
-    data: {
-      users: users
-    }
+    method: "GET"
   });
 };
 

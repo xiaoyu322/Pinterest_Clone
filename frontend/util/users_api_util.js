@@ -14,10 +14,9 @@ export const fetchUser = user => {
   })
 }
 
-export const fetchAllUsers = users => {
+export const fetchAllUsers = () => {
   return $.ajax({
     url: `/api/users`,
-    method: "GET",
-    data: { users }
+    method: "GET"
   });
 }

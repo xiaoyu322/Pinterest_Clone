@@ -20,9 +20,9 @@ export const receiveUserErrors = errors => ({
     errors
 })
 
-export const fetchUser = (id) => dispatch => {
-    return UserApiUtil.fetchUser(id).then(
-        (user) => dispatch(receiveUser(user))
+export const fetchUser = (userId) => dispatch => {
+    return UserApiUtil.fetchUser(userId)
+    .then( (user) => dispatch(receiveUser(user))
     );
 };
 
