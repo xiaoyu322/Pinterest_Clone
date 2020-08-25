@@ -1,15 +1,15 @@
 import * as UserAPIUtil from '../util/session_api_util';
-// import { closeModal} from  './modal_actions'
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 export const RESET_SESSION_ERRORS = 'RESET_SESSION_ERRORS';
+export const NEW_USER = "NEW_USER";
 
 
-export const receiveCurrentUser = currentUser => ({
+export const receiveCurrentUser = user => ({
     type: RECEIVE_CURRENT_USER,
-    currentUser
+    user
 });
 
 export const logoutCurrentUser = () => ({
@@ -24,6 +24,11 @@ export const receiveErrors = errors => ({
 export const resetErrors = () => ({
     type: RESET_SESSION_ERRORS,
 });
+
+export const newUserDetails = user => ({
+    type: NEW_USER,
+    user
+})
 
 export const login = formUser => dispatch => {
     return UserAPIUtil.login(formUser)
@@ -42,3 +47,9 @@ export const signup = user => dispatch => {
         .then(user => dispatch(receiveCurrentUser(user)))
             .fail(errors => (dispatch(receiveErrors(errors.responseJSON))))
 };
+
+export const createNewUser = user => dispatch => {
+    return APIUtil.signup(user)
+        .then((user) => dispatch(newUserDetails(user)),
+            error => dispatch(receiveSessionErrors(error.responseJSON)))
+}

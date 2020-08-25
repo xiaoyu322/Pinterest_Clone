@@ -1,15 +1,13 @@
 import { connect } from 'react-redux';
 import { logout } from '../../actions/session_actions';
-import navBar from './nav_bar';
+import NavBar from './nav_bar';
 
-const msp = ({ session, entities: { users } }) => {
-  return {
-    currentUser: users[session.id]
-  };
-};
+const msp = (state) => ({
+  currentUser: state.session.currentUser
+});
 
 const mdp = dispatch => ({
   logout: () => dispatch(logout()),
 })
 
-export default connect(msp, mdp)(navBar);
+export default connect(msp, mdp)(NavBar);

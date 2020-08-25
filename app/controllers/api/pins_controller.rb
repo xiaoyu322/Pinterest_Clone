@@ -23,7 +23,7 @@ class Api::PinsController < ApplicationController
   def destroy
     @pin = Pin.find(params[:id])
     if @pin.destroy
-        render "api/pins/show"
+        render "api/pins/index"
     else
         render json: @pin.errors.full_messages, status: 422
     end
