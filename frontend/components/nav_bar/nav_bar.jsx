@@ -6,15 +6,17 @@ const NavBar = ({ currentUser, logout }) => {
     return (
       <header className="header">
         <div className="logo_and_text">
-          <img className="logo" src={window.logo} />
+          <Link to="/">
+            <img className="logo" src={window.logo} />
+          </Link>
           <h1 className="logo-text">Pinshare</h1>
         </div>
         <div className="btns">
           <button className='other-nav'>About</button>
           <button className='other-nav'>Business</button>
           <button className='other-nav'>Blog</button>
-          <Link className="signup-btn" to="/signup">Sign up</Link>
           <Link className="login-btn" to="/login">Log in</Link>
+          <Link className="signup-btn" to="/signup">Sign up</Link>
         </div>
       </header>
     );
@@ -29,10 +31,9 @@ const NavBar = ({ currentUser, logout }) => {
           <button className='other-nav'>About</button>
           <button className='other-nav'>Business</button>
           <button className='other-nav'>Blog</button>
-          <Link className="logout-link" to="/">
-            <button className="logout-btn" onClick={logout}>
+          <Link className='profile-btn' to="/users/:userId/pins">My Profile</Link>
+          <Link className="logout-btn" to="/" onClick={logout}>
               Log out
-            </button>
           </Link>
         </div>
       </header>

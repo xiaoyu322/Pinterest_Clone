@@ -7,10 +7,12 @@ export const RESET_SESSION_ERRORS = 'RESET_SESSION_ERRORS';
 export const NEW_USER = "NEW_USER";
 
 
-export const receiveCurrentUser = currentUser => ({
+export const receiveCurrentUser = (currentUser) => {
+    return {
     type: RECEIVE_CURRENT_USER,
     currentUser
-});
+    };
+};
 
 export const logoutCurrentUser = () => ({
     type: LOGOUT_CURRENT_USER,

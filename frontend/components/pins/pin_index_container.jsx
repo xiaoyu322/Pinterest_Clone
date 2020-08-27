@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { fetchAllPins } from "../../actions/pin_actions";
 import PinIndexItem from './pin_index_item'
+import { fetchUsers } from "../../actions/user_actions";
 
 class Pins extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Pins extends React.Component {
 
   componentDidMount() {
     this.props.fetchAllPins();
+    this.props.fetchUsers();
   }
 
   handleInput(e) {
@@ -56,7 +58,6 @@ class Pins extends React.Component {
 
   render() {
     const { pins } = this.props;
-    // console.log(pins);
     return (
       <div>
         {this.displayPin()}
@@ -77,6 +78,7 @@ const msp = (state) => {
 
 const mdp = (dispatch) => ({
   fetchAllPins: () => dispatch(fetchAllPins()),
+  fetchUsers: () => dispatch(fetchUsers())
 });
 
 export default connect(msp, mdp)(Pins);

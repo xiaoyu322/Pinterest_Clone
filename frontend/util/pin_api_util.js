@@ -13,10 +13,10 @@ export const fetchAllPins = () => {
   })
 };
 
-export const fetchPin = (pinId) => (
+export const fetchPin = (id) => (
   $.ajax({
     method: 'GET',
-    url: `/api/pins/${pinId}`,
+    url: `/api/pins/${id}`,
   })
 );
 
@@ -26,3 +26,11 @@ export const deletePin = (pinId) => {
     url: `/api/pins/${pinId}`,
   });
 };
+
+export const saveToBoard = (pin_board) => {
+  return $.ajax({
+    url: `/api/pin_boards`,
+    method: "POST",
+    data: { pin_board }
+  })
+}

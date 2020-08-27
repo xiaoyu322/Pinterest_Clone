@@ -6,15 +6,14 @@ export const edit = user => {
   });
 }
 
-export const fetchUser = user => {
+export const fetchUser = userId => {
   return $.ajax({
-    url: `/api/users/${user.id}`,
+    url: `/api/users/${userId}`,
     method: "GET",
-    data: { user }
   })
 }
 
-export const fetchAllUsers = () => {
+export const fetchUsers = () => {
   return $.ajax({
     url: `/api/users`,
     method: "GET"
