@@ -6,9 +6,9 @@ export const edit = user => {
   });
 }
 
-export const fetchUser = userId => {
+export const fetchUser = id => {
   return $.ajax({
-    url: `/api/users/${userId}`,
+    url: `/api/users/${id}`,
     method: "GET",
   })
 }

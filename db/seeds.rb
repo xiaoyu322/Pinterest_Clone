@@ -9,11 +9,13 @@
 require 'open-uri'
 User.delete_all
 Pin.destroy_all
+Board.destroy_all
+PinBoard.destroy_all
 
-user1 = User.create(email: 'xiao@gamil.com', password: '123456')
+user1 = User.create(email: 'xiao@gmail.com', password: '123456')
 user2 = User.create(email: 'ian@gmail.com', password: '123456')
 user3 = User.create(email: 'aaa@gmail.com', password: '123456')
-user4 = User.create(email: 'b', password: '123456')
+user4 = User.create(email: 'bbb@gmail.com', password: '123456')
 user5 = User.create(email: 'ccc@gmail.com', password: '123456')
 
 pin1 = Pin.create(title:'knight', user_id: user1.id)
@@ -137,9 +139,14 @@ file30 = open('https://pinshare-dev.s3-us-west-1.amazonaws.com/bethany-randall.j
 pin30.photo.attach(io: file30, filename: 'bethany-randall.jpg')
 
 
-board1 = Board.create(title: 'relex', user_id: user4.id)
+board1 = Board.create(title: 'emotion', user_id: user4.id)
+board2 = Board.create(title: 'relax', user_id: user1.id)
 
 
-pinboard1 = PinBoard.create(pin_id: pin30.id, board_id: board1.id)
-pinboard2 = PinBoard.create(pin_id: pin29.id, board_id: board1.id)
-pinboard3 = PinBoard.create(pin_id: pin28.id, board_id: board1.id)
+pinboard1 = PinBoard.create(pin_id: pin25.id, board_id: board1.id)
+pinboard2 = PinBoard.create(pin_id: pin26.id, board_id: board1.id)
+pinboard3 = PinBoard.create(pin_id: pin27.id, board_id: board1.id)
+pinboard4 = PinBoard.create(pin_id: pin2.id, board_id: board2.id)
+pinboard5 = PinBoard.create(pin_id: pin3.id, board_id: board2.id)
+pinboard6 = PinBoard.create(pin_id: pin4.id, board_id: board2.id)
+pinboard7 = PinBoard.create(pin_id: pin5.id, board_id: board2.id)

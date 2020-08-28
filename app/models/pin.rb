@@ -7,7 +7,9 @@ class Pin < ApplicationRecord
         foreign_key: :user_id,
         class_name: :User
 
+    has_many :pin_boards, dependent: :destroy
+    
     has_many :boards,
-        through: :pin_board
+        through: :pin_boards
 
 end

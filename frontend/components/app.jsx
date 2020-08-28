@@ -10,6 +10,8 @@ import PinShowContainer from './pins/pin_show_container'
 import PinCreateContainer from './pins/pin_create_container'
 import ProfileContainer from './profile/profile_container'
 import BoardShowContainer from './boards/board_show_container';
+import BoardIndexContainer from './boards/board_index_container'
+import BoardCreateContainer from './boards/board_create_container'
 
 // Just functional
 const App = () => {
@@ -24,8 +26,10 @@ const App = () => {
                 <AuthRoute exact path="/signup" component={SignUpFormContainer} />
                 <Route exact path="/pins/:pinId" component={PinShowContainer} />
                 <ProtectedRoute exact path="/users/:userId/pins" component={ProfileContainer}/>
-                <ProtectedRoute exact path="/users/:userId/boards" component={BoardShowContainer} />
+                <ProtectedRoute exact path="/users/:userId/boards/:boardId" component={BoardShowContainer} />
+                <ProtectedRoute exact path="/users/:userId/boards" component={BoardIndexContainer} />
                 <ProtectedRoute exact path="/pin/new" component={PinCreateContainer} />
+                <ProtectedRoute exact path="/board/new" component={BoardCreateContainer} />
             </Switch>
         </div>
     )
