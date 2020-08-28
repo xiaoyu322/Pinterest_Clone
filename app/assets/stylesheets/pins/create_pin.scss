@@ -42,7 +42,7 @@
 
 .submit-pin:hover {
   background-color: rgb(230,0,35);
-  color: white;
+  color: white
 }
 
 .pin-details {
@@ -52,10 +52,11 @@
 }
 
 .photo-preview {
-  // margin-left: 10px;
+  margin-left: 10px;
   width: 275px;
-  // position: fixed;
-  // z-index: 2;
+  z-index: 2;
+  padding-right: 10px;
+  padding-top: 50px;
 }
 
 .dropzone {

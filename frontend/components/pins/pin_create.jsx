@@ -86,7 +86,6 @@ class CreatePin extends React.Component {
               {!isDragActive && ""}
               {isDragActive && !isDragReject && this.state.dropPreviewMessage}
               {isDragReject && this.state.dropErrorMessage}
-              {/* dropMessage dropPreviewMessage dropErrorMessage */}
             </div>
           )}
         </DropZone>
@@ -130,12 +129,11 @@ class CreatePin extends React.Component {
     return (
       <div>
         <div className="create-pin-form">
-          {this.photoPreview()}
           <div>
             <h1 className={this.state.status}>Immage Successfully Saved!</h1>
             <div className="dropzone">
               <div className="dropzone-zone">
-                {this.dropZone()}
+                {this.state.photoFile ? this.photoPreview() : this.dropZone()}
               </div>
             </div>
           </div>
