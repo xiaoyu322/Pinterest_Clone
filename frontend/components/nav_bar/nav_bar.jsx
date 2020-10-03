@@ -12,9 +12,8 @@ const NavBar = ({ currentUser, logout }) => {
           <h1 className="logo-text">Pinshare</h1>
         </div>
         <div className="btns">
-          <button className='other-nav'>About</button>
-          <button className='other-nav'>Business</button>
-          <button className='other-nav'>Blog</button>
+          <button className='other-nav'>Linkedin</button>
+          <button className='other-nav'>Github</button>
           <Link className="login-btn" to="/login">Log in</Link>
           <Link className="signup-btn" to="/signup">Sign up</Link>
         </div>
@@ -30,9 +29,8 @@ const NavBar = ({ currentUser, logout }) => {
           <h1 className="logo-text">Pinshare</h1>
         </div>
         <div className="btns">
-          <button className='other-nav'>About</button>
-          <button className='other-nav'>Business</button>
-          <button className='other-nav'>Blog</button>
+          <a className='other-nav' href="https://www.linkedin.com/in/xiao-yu-0a18449b/">Linkedin</a>
+          <a className='other-nav' href="https://github.com/xiaoyu322">Github</a>
           <Link className='profile-btn' to={`/users/${currentUser.id}/pins`} >My Profile</Link>
           <Link className="logout-btn" to="/" onClick={logout}>
               Log out

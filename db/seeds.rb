@@ -150,3 +150,8 @@ pinboard4 = PinBoard.create(pin_id: pin2.id, board_id: board2.id)
 pinboard5 = PinBoard.create(pin_id: pin3.id, board_id: board2.id)
 pinboard6 = PinBoard.create(pin_id: pin4.id, board_id: board2.id)
 pinboard7 = PinBoard.create(pin_id: pin5.id, board_id: board2.id)
+
+f1 = Follow.create(user_id: user2.id, follower_id: user1.id)
+f2 = Follow.create(user_id: user2.id, follower_id: user3.id)
+f3 = Follow.create(user_id: user2.id, follower_id: user4.id)
+f4 = Follow.create(user_id: user1.id, follower_id: user2.id)

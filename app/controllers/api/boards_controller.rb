@@ -29,7 +29,8 @@ class Api::BoardsController < ApplicationController
     def destroy
       @board = Board.find(params[:id])
         if @board.destroy
-            render '/api/boards/show'
+            @boards = Board.all
+            render '/api/boards/index'
         else
             render json: @board.errors.full_messages, status: 422
         end

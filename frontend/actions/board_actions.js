@@ -45,14 +45,12 @@ export const fetchBoard = (userId, boardId) => dispatch => {
 
 export const createBoard = board => dispatch => {
     return BoardAPIUtil.createBoard(board)
-        .then(boards => dispatch(receiveBoard(boards)),
+        .then(boards => dispatch(receiveBoards(boards)),
             error => dispatch(receiveBoardErrors(error.responseJSON)))
 }
-
+    
 export const deleteBoard = (userId, boardId) => dispatch => {
     return BoardAPIUtil.deleteBoard(userId, boardId)
-        .then(boardId => dispatch(removeBoard(boardId)),
-            error => dispatch(receiveBoardErrors(error.responseJSON)))
         .then(boards => dispatch(receiveBoards(boards)),
             error => dispatch(receiveBoardErrors(error.responseJSON)))
 }

@@ -20,7 +20,7 @@ class Api::UsersController < ApplicationController
     if @user
       render 'api/users/show'
     else
-      ender json: ['Could not locate user'], status: 400
+      render json: ['Could not locate user'], status: 400
     end
   end
 

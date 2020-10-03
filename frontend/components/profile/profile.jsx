@@ -13,11 +13,10 @@ class Profile extends React.Component {
   componentDidMount() {
     this.props.fetchUser(this.props.currentUserId);
     this.props.fetchAllPins();
-    // this.props.fetchPins();
+    this.props.fetchAllFollows();
   }
 
-  pinDisplay() {
-    const {currentUserId} = this.props
+  pinDisplay(currentUserId) {
     const allPins = this.props.pins
     let currentUserPins = []
     for (let key in allPins) {
@@ -54,9 +53,13 @@ class Profile extends React.Component {
   }
 
   render() {
-    const currentUser = this.props.users[this.props.currentUserId];
-
-    if (currentUser) {
+    const urlUserId = this.props.location.pathname.split('/')[2]
+    const currentUser = this.props.users[urlUserId];
+    const followsEntities = this.props.follows
+    const following = Object.values(followsEntities).filter(entity => entity.follower_id == urlUserId)
+    const followers = Object.values(followsEntities).filter(entity => entity.user_id == urlUserId)
+    const isFollowing = Object.values(followers).filter(entity => entity.follower_id == this.props.currentUserId)
+    console.log(isFollowing);
       return (
         <div>
           <div className="profile">
@@ -64,24 +67,42 @@ class Profile extends React.Component {
               <img className="profile-img" src={window.profile_img_logo} />
               <h1 className="username-header">{currentUser.email}</h1>
             </div>
-            <div className="profile-sub-header">
-              <Link className="create-pin-btn" to={`/pin/new`}>
-                Create Pin
-              <FontAwesomeIcon className="profile-link-icons" icon={faPlus}/>
-              </Link>
-              <Link className="my-board-btn" to={`/users/${currentUser.id}/boards`}>My Boards</Link>
+            <div className="follow-count">
+              {followers.length} followers · {following.length} following
             </div>
+            {
+              (this.props.currentUserId == urlUserId) ?  
+              <div className="profile-sub-header">
+                <Link className="create-pin-btn" to={`/pin/new`}>
+                  Create Pin
+                <FontAwesomeIcon className="profile-link-icons" icon={faPlus}/>
+                </Link>
+                <Link className="my-board-btn" to={`/users/${currentUser.id}/boards`}>My Boards</Link>
+              </div> : 
+
+                (isFollowing.length == 0) ?
+                  <div>
+                    <button className="create-pin-btn" onClick={() => this.props.createFollow({
+                      user_id: urlUserId,
+                      follower_id: this.props.currentUserId
+                    })}>
+                      Follow
+                    </button>
+                  </div> : 
+                  <div>
+                    <button className="create-pin-btn" onClick={() => this.props.deleteFollow(isFollowing[0].id)}>
+                      Unfollow
+                    </button>
+                  </div>
+            }
+
+
           </div>
           <div className="pin-display">
-            {this.pinDisplay()}
+            {this.pinDisplay(urlUserId)}
           </div>
         </div>
       );
-    } else {
-      // const userpins = this.props.pins[this.props.currentUserId];
-      // console.log(userpins)
-      return 0;
-    }
   }
 }
 
