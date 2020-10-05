@@ -179,3 +179,38 @@
 .profile-btn:hover {
   background-color: rgb(221, 218, 218);
 }
+
+.error-message{
+  margin-left: -70px;
+}
+
+.follow-btn{
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    text-decoration: none;
+    height: 10px;
+    min-width: 70.25px;
+    margin: 8px;
+    color: black;
+    background-color: white;
+    font-size: 16px;
+    font-weight: 450;
+    border-radius: 30px;
+    padding: 11px;
+    padding-right: 12px;
+    padding-left: 11px;
+    margin-top: 20px;
+    
+}
+
+.follow-btn:hover {
+  background-color: rgb(230, 0, 35);
+  text-decoration: white;
+}
+
+.follow-count {
+  margin-bottom: 30px;
+}
+
+.follow {
+  margin-top: -10px;
+}

@@ -81,19 +81,18 @@ class Profile extends React.Component {
               </div> : 
 
                 (isFollowing.length == 0) ?
-                  <div>
-                    <button className="create-pin-btn" onClick={() => this.props.createFollow({
+                  
+                    <button className="follow-btn" onClick={() => this.props.createFollow({
                       user_id: urlUserId,
                       follower_id: this.props.currentUserId
                     })}>
-                      Follow
-                    </button>
-                  </div> : 
-                  <div>
-                    <button className="create-pin-btn" onClick={() => this.props.deleteFollow(isFollowing[0].id)}>
-                      Unfollow
-                    </button>
-                  </div>
+                      <p className='follow'>Follow</p>
+                      </button>
+                   : 
+                    <button className="follow-btn" onClick={() => this.props.deleteFollow(isFollowing[0].id)}>
+                    <p className='follow'>Unfollow</p>
+                      </button>
+                  
             }
 
 

@@ -2051,19 +2051,23 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "my-board-btn",
         to: "/users/".concat(currentUser.id, "/boards")
-      }, "My Boards")) : isFollowing.length == 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "create-pin-btn",
+      }, "My Boards")) : isFollowing.length == 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "follow-btn",
         onClick: function onClick() {
           return _this.props.createFollow({
             user_id: urlUserId,
             follower_id: _this.props.currentUserId
           });
         }
-      }, "Follow")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "create-pin-btn",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "follow"
+      }, "Follow")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "follow-btn",
         onClick: function onClick() {
           return _this.props.deleteFollow(isFollowing[0].id);
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "follow"
       }, "Unfollow"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "pin-display"
       }, this.pinDisplay(urlUserId)));
@@ -2285,7 +2289,8 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
     key: "renderErrors",
     value: function renderErrors() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "error-message",
           key: "error-".concat(i)
         }, error);
       }));
