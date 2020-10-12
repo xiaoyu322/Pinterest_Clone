@@ -8,13 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class BoardIndex extends React.Component{
     constructor(props){
         super(props)
-        this.state = {
-            boardForm: false,
-            user_id: this.props.currentUserId
-        }
+        // this.state = {
+        //     boardForm: false,
+        //     user_id: this.props.currentUserId
+        // }
     }
 
     componentDidMount(){
+        console.log("boardIndex")
         this.props.fetchBoards();
     }
 

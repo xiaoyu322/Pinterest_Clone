@@ -24,23 +24,19 @@ export const removePin = (pinId) => {
 };
 
 export const fetchAllPins = () => dispatch => {
-  PinsAPIUtil.fetchAllPins().then(pins => (
-    dispatch(receivePins(pins))
-  ))
+  PinsAPIUtil.fetchAllPins().then(pins => dispatch(receivePins(pins)))
 };
 
 export const fetchPin = (pin) => dispatch => {
   PinsAPIUtil.fetchPin(pin.id).then((pin) => dispatch(receivePin(pin)));
 };
 
-export const createPin = pin => dispatch => (
-  PinsAPIUtil.createPin(pin).then(pin => (
-    dispatch(receivePin(pin))
-  ))
-);
+export const createPin = pin => dispatch => {
+  PinsAPIUtil.createPin(pin).then((pins) => dispatch(receivePins(pins)));
+};
 
-export const deletePin = (pin) => dispatch => {
-  return PinsAPIUtil.deletePin(pin).then(() => dispatch(removePin(pin.id)));
+export const deletePin = (pinId) => dispatch => {
+  PinsAPIUtil.deletePin(pinId).then((pins) => dispatch(receivePins(pins)));
 };
 
 export const saveToBoard = (pinBoard) => dispatch => {

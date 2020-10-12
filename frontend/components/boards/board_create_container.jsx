@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CreateBoard from './board_create';
-import { createBoard } from '../../actions/board_actions';
+import { createBoard, fetchBoards } from '../../actions/board_actions';
 
 const msp = (statge) => {
     return {
@@ -8,7 +8,8 @@ const msp = (statge) => {
     }
 }
 
-const mdp = dispatch => ({
+const mdp = (dispatch, { match: { params } }) => ({
+    fetchBoards: () => dispatch(fetchBoards(params.userId)),
     createBoard: board => dispatch(createBoard(board))
 })
 

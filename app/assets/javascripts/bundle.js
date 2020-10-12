@@ -321,15 +321,15 @@ var fetchPin = function fetchPin(pin) {
 };
 var createPin = function createPin(pin) {
   return function (dispatch) {
-    return _util_pin_api_util__WEBPACK_IMPORTED_MODULE_0__["createPin"](pin).then(function (pin) {
-      return dispatch(receivePin(pin));
+    _util_pin_api_util__WEBPACK_IMPORTED_MODULE_0__["createPin"](pin).then(function (pins) {
+      return dispatch(receivePins(pins));
     });
   };
 };
-var deletePin = function deletePin(pin) {
+var deletePin = function deletePin(pinId) {
   return function (dispatch) {
-    return _util_pin_api_util__WEBPACK_IMPORTED_MODULE_0__["deletePin"](pin).then(function () {
-      return dispatch(removePin(pin.id));
+    _util_pin_api_util__WEBPACK_IMPORTED_MODULE_0__["deletePin"](pinId).then(function (pins) {
+      return dispatch(receivePins(pins));
     });
   };
 };
@@ -349,7 +349,7 @@ var saveToBoard = function saveToBoard(pinBoard) {
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_SESSION_ERRORS, NEW_USER, receiveCurrentUser, logoutCurrentUser, clearErrors, receiveErrors, newUserDetails, login, logout, signup */
+/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, NEW_USER, CLEAR_SESSION_ERRORS, receiveCurrentUser, logoutCurrentUser, receiveErrors, clearSessionErrors, newUserDetails, login, logout, signup */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -357,12 +357,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CURRENT_USER", function() { return RECEIVE_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_CURRENT_USER", function() { return LOGOUT_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SESSION_ERRORS", function() { return RECEIVE_SESSION_ERRORS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_SESSION_ERRORS", function() { return CLEAR_SESSION_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NEW_USER", function() { return NEW_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_SESSION_ERRORS", function() { return CLEAR_SESSION_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveCurrentUser", function() { return receiveCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutCurrentUser", function() { return logoutCurrentUser; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearErrors", function() { return clearErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearSessionErrors", function() { return clearSessionErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newUserDetails", function() { return newUserDetails; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -372,8 +372,8 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 var LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 var RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
-var CLEAR_SESSION_ERRORS = "CLEAR_SESSION_ERRORS";
 var NEW_USER = "NEW_USER";
+var CLEAR_SESSION_ERRORS = 'CLEAR_SESSION_ERRORS';
 var receiveCurrentUser = function receiveCurrentUser(currentUser) {
   return {
     type: RECEIVE_CURRENT_USER,
@@ -385,15 +385,15 @@ var logoutCurrentUser = function logoutCurrentUser() {
     type: LOGOUT_CURRENT_USER
   };
 };
-var clearErrors = function clearErrors() {
-  return {
-    type: CLEAR_SESSION_ERRORS
-  };
-};
 var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_SESSION_ERRORS,
     errors: errors
+  };
+};
+var clearSessionErrors = function clearSessionErrors() {
+  return {
+    type: CLEAR_SESSION_ERRORS
   };
 };
 var newUserDetails = function newUserDetails(currentUser) {
@@ -633,7 +633,9 @@ var CreateBoard = /*#__PURE__*/function (_React$Component) {
 
   _createClass(CreateBoard, [{
     key: "componentDidMount",
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      this.props.fetchBoards();
+    }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
@@ -650,7 +652,7 @@ var CreateBoard = /*#__PURE__*/function (_React$Component) {
           data: formData,
           contentType: false,
           processData: false
-        }).then(document.location.href = "#/users/".concat(currentUserId, "/boards"));
+        }).then(this.props.fetchBoards()).then(document.location.href = "#/users/".concat(currentUserId, "/boards"));
       }
     }
   }, {
@@ -714,8 +716,12 @@ var msp = function msp(statge) {
   };
 };
 
-var mdp = function mdp(dispatch) {
+var mdp = function mdp(dispatch, _ref) {
+  var params = _ref.match.params;
   return {
+    fetchBoards: function fetchBoards() {
+      return dispatch(Object(_actions_board_actions__WEBPACK_IMPORTED_MODULE_2__["fetchBoards"])(params.userId));
+    },
     createBoard: function createBoard(board) {
       return dispatch(Object(_actions_board_actions__WEBPACK_IMPORTED_MODULE_2__["createBoard"])(board));
     }
@@ -775,31 +781,28 @@ var BoardIndex = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(BoardIndex);
 
   function BoardIndex(props) {
-    var _this;
-
     _classCallCheck(this, BoardIndex);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      boardForm: false,
-      user_id: _this.props.currentUserId
-    };
-    return _this;
+    return _super.call(this, props); // this.state = {
+    //     boardForm: false,
+    //     user_id: this.props.currentUserId
+    // }
   }
 
   _createClass(BoardIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      console.log("boardIndex");
       this.props.fetchBoards();
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       var boards = this.props.boards;
       var allBoards = Object.values(boards).filter(function (board) {
-        return board.user_id == _this2.props.currentUserId;
+        return board.user_id == _this.props.currentUserId;
       });
 
       if (allBoards.length !== 0) {
@@ -821,7 +824,7 @@ var BoardIndex = /*#__PURE__*/function (_React$Component) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
             key: idx,
             className: "board-index-item",
-            to: "/users/".concat(_this2.props.currentUserId, "/boards/").concat(board.id)
+            to: "/users/".concat(_this.props.currentUserId, "/boards/").concat(board.id)
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
             className: "board-index-item-text"
           }, board.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1095,10 +1098,14 @@ var NavBar = function NavBar(_ref) {
       className: "logo-text"
     }, "Pinshare")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "btns"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "other-nav"
-    }, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "other-nav"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "other-nav",
+      href: "https://www.linkedin.com/in/xiao-yu-0a18449b/",
+      target: "_blank"
+    }, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "other-nav",
+      href: "https://github.com/xiaoyu322",
+      target: "_blank"
     }, "Github"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       className: "login-btn",
       to: "/login"
@@ -1122,10 +1129,12 @@ var NavBar = function NavBar(_ref) {
       className: "btns"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "other-nav",
-      href: "https://www.linkedin.com/in/xiao-yu-0a18449b/"
+      href: "https://www.linkedin.com/in/xiao-yu-0a18449b/",
+      target: "_blank"
     }, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "other-nav",
-      href: "https://github.com/xiaoyu322"
+      href: "https://github.com/xiaoyu322",
+      target: "_blank"
     }, "Github"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       className: "profile-btn",
       to: "/users/".concat(currentUser.id, "/pins")
@@ -1259,7 +1268,7 @@ var CreatePin = /*#__PURE__*/function (_React$Component) {
   _createClass(CreatePin, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log(this.props);
+      this.props.fetchAllPins();
     }
   }, {
     key: "handleInput",
@@ -1356,13 +1365,8 @@ var CreatePin = /*#__PURE__*/function (_React$Component) {
       }
 
       var currentUserId = this.props.currentUserId;
-      $.ajax({
-        url: "api/pins",
-        method: "POST",
-        data: formData,
-        contentType: false,
-        processData: false
-      }).then(document.location.href = "#/users/".concat(currentUserId, "/pins"));
+      this.props.createPin(formData);
+      document.location.href = "#/users/".concat(currentUserId, "/pins");
     }
   }, {
     key: "photoPreview",
@@ -1713,11 +1717,13 @@ var PinShow = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onDelete",
-    value: function onDelete(pin) {
-      $.ajax({
-        method: 'DELETE',
-        url: "/api/pins/".concat(pin.id)
-      }).then(document.location.href = "#");
+    value: function onDelete(pinId) {
+      this.props.deletePin(pinId);
+      var currentUserId = this.props.currentUserId;
+      document.location.href = "#/users/".concat(currentUserId, "/pins"); // $.ajax({
+      //     method: 'DELETE',
+      //     url: `/api/pins/${pin.id}`,
+      //   }).then(document.location.href = `#`);
     }
   }, {
     key: "update",
@@ -1801,7 +1807,7 @@ var PinShow = /*#__PURE__*/function (_React$Component) {
         }, owner.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "submit-pin",
           onClick: function onClick() {
-            return _this5.onDelete(currentPin);
+            return _this5.onDelete(currentPin.id);
           }
         }, "Delete!")));
       } else if (currentPin) {
@@ -1840,6 +1846,7 @@ var PinShow = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      window.scrollTo(0, 0);
       var _this$props2 = this.props,
           currentPin = _this$props2.currentPin,
           users = _this$props2.users;
@@ -1900,9 +1907,11 @@ var mdp = function mdp(dispatch, _ref) {
     },
     fetchBoards: function fetchBoards() {
       return dispatch(Object(_actions_board_actions__WEBPACK_IMPORTED_MODULE_2__["fetchBoards"])(params.userId));
-    } // fetchUsers: () => dispatch(fetchUsers()),
-    // deletePin: pin => dispatch(deletePin(pin))
-
+    },
+    // fetchUsers: () => dispatch(fetchUsers()),
+    deletePin: function deletePin(pin) {
+      return dispatch(Object(_actions_pin_actions__WEBPACK_IMPORTED_MODULE_1__["deletePin"])(pin));
+    }
   };
 };
 
@@ -2028,7 +2037,6 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       var isFollowing = Object.values(followers).filter(function (entity) {
         return entity.follower_id == _this.props.currentUserId;
       });
-      console.log(isFollowing);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2205,6 +2213,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["login"])(user));
+    },
+    clearSessionErrors: function clearSessionErrors() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["clearSessionErrors"])());
     }
   };
 };
@@ -2266,6 +2277,7 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
       password: ''
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.demoUser = _this.demoUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2279,10 +2291,25 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.clearSessionErrors();
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
       var user = Object.assign({}, this.state);
+      this.props.processForm(user);
+    }
+  }, {
+    key: "demoUser",
+    value: function demoUser(e) {
+      e.preventDefault();
+      var user = {
+        email: "ian@gmail.com",
+        password: "123456"
+      };
       this.props.processForm(user);
     }
   }, {
@@ -2309,7 +2336,9 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         className: "welcome"
       }, "Welcome to Pinshare"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "slogon"
-      }, "Find new ideas to try"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Please ", this.props.formType, " or ", this.props.navLink, this.renderErrors(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Find new ideas to try"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Please ", this.props.formType, " or ", this.props.navLink, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "error-messages"
+      }, this.renderErrors()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "login-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
@@ -2323,7 +2352,10 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         value: this.state.password,
         onChange: this.update('password'),
         className: "login-input"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "demo-login",
+        onClick: this.demoUser
+      }, "Demo Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "session-submit",
         type: "submit",
         value: this.props.formType
@@ -2374,6 +2406,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["signup"])(user));
+    },
+    clearSessionErrors: function clearSessionErrors() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["clearSessionErrors"])());
     }
   };
 };
@@ -2982,11 +3017,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveToBoard", function() { return saveToBoard; });
 var createPin = function createPin(pin) {
   return $.ajax({
-    method: 'POST',
     url: '/api/pins',
-    data: {
-      pin: pin
-    }
+    method: 'POST',
+    data: pin,
+    contentType: false,
+    processData: false
   });
 };
 var fetchAllPins = function fetchAllPins() {

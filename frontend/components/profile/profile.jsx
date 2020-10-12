@@ -59,7 +59,6 @@ class Profile extends React.Component {
     const following = Object.values(followsEntities).filter(entity => entity.follower_id == urlUserId)
     const followers = Object.values(followsEntities).filter(entity => entity.user_id == urlUserId)
     const isFollowing = Object.values(followers).filter(entity => entity.follower_id == this.props.currentUserId)
-    console.log(isFollowing);
       return (
         <div>
           <div className="profile">

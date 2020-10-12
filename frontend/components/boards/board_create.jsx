@@ -7,7 +7,7 @@ class CreateBoard extends React.Component {
     }
 
     componentDidMount() {
-
+        this.props.fetchBoards();
     }
 
     handleSubmit(e) {
@@ -23,7 +23,7 @@ class CreateBoard extends React.Component {
                 data: formData,
                 contentType: false,
                 processData: false,
-            }).then(document.location.href=`#/users/${currentUserId}/boards`)
+            }).then(this.props.fetchBoards()).then(document.location.href=`#/users/${currentUserId}/boards`)
         }
     }
 

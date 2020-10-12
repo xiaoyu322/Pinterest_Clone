@@ -4,7 +4,8 @@ class Api::PinsController < ApplicationController
     @pin = Pin.new(pin_params)
 
     if @pin.save
-      render "api/pins/show"
+      @pins = Pin.all
+      render "api/pins/index"
     else
       render json: @pin.errors.full_messages, status: 422
     end 
@@ -23,9 +24,10 @@ class Api::PinsController < ApplicationController
   def destroy
     @pin = Pin.find(params[:id])
       if @pin.destroy
-          render "api/pins/index"
+        @pins = Pin.all
+        render "api/pins/index"
       else
-          render json: @pin.errors.full_messages, status: 422
+        render json: @pin.errors.full_messages, status: 422
       end
   end    
 

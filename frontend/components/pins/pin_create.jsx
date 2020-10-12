@@ -29,7 +29,7 @@ class CreatePin extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    this.props.fetchAllPins();
   }
 
   handleInput(e) {
@@ -103,13 +103,8 @@ class CreatePin extends React.Component {
       formData.append("pin[photo]", this.state.photoFile);
     }
     const { currentUserId } = this.props;
-    $.ajax({
-      url: "api/pins",
-      method: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
-    }).then(document.location.href = `#/users/${currentUserId}/pins`);
+    this.props.createPin(formData);
+    document.location.href = `#/users/${currentUserId}/pins`;
   }
 
   photoPreview() {

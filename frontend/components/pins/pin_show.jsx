@@ -14,6 +14,7 @@ class PinShow extends React.Component {
     }
 
     componentDidMount() {
+        
         this.props.fetchBoards()
             .then((result)=> 
                 this.setState({boards: Object.values(result.boards)
@@ -21,11 +22,14 @@ class PinShow extends React.Component {
             .then(() => this.setState({selectedBoardId: this.state.boards[0].id}))
     }
 
-    onDelete(pin) {
-        $.ajax({
-            method: 'DELETE',
-            url: `/api/pins/${pin.id}`,
-          }).then(document.location.href = `#`);
+    onDelete(pinId) {
+        this.props.deletePin(pinId);
+        const { currentUserId } = this.props;
+        document.location.href = `#/users/${currentUserId}/pins`;
+        // $.ajax({
+        //     method: 'DELETE',
+        //     url: `/api/pins/${pin.id}`,
+        //   }).then(document.location.href = `#`);
     }
 
     update() {
@@ -81,7 +85,7 @@ class PinShow extends React.Component {
                                 {owner.email}
                             </Link>
                         </div>
-                        <button className="submit-pin" onClick={() => this.onDelete(currentPin)}>Delete!</button>
+                        <button className="submit-pin" onClick={() => this.onDelete(currentPin.id)}>Delete!</button>
                     </div>
                 </div>
             );
@@ -113,6 +117,7 @@ class PinShow extends React.Component {
     };
 
     render() {
+        window.scrollTo(0,0)
         const { currentPin, users } = this.props;
         const owner = users[currentPin.user_id]
 

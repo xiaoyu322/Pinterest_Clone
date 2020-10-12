@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchAllPins, fetchPin } from "../../actions/pin_actions";
+import { fetchAllPins, fetchPin, deletePin } from "../../actions/pin_actions";
 import {fetchBoards} from "../../actions/board_actions";
 import PinShow from './pin_show'
 // import {fetchUsers} from '../../actions/user_actions'
@@ -20,7 +20,7 @@ const mdp = (dispatch, {match: {params}}) => ({
   fetchPin: pin => dispatch(fetchPin(pin)),
   fetchBoards: () => dispatch(fetchBoards(params.userId)),
   // fetchUsers: () => dispatch(fetchUsers()),
-  // deletePin: pin => dispatch(deletePin(pin))
+  deletePin: pin => dispatch(deletePin(pin))
 });
 
 export default connect(msp, mdp)(PinShow);
